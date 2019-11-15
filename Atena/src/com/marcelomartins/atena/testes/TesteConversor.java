@@ -20,15 +20,17 @@ public class TesteConversor {
 		 */
 		List<Map<String, String>> flatJson = JSONFlattener.parseJson(
 			new URI(
-				"https://api.github.com/repos/rails/rails/pulls?state=closed"
+				"https://api.github.com/repos/rails/rails/pulls?state=closed&per_page=200"
 			)
 		);
 		
 //		CSVWriter.writeToFile(CSVWriter.getCSV(flatJson, "\t"), "files/rails_closed.csv");
-		String[] lstAtr = flatJson.toString().split(",");
-		for (String string : lstAtr) {
-			System.out.println(string);
-		}
+//		String[] lstAtr = flatJson.toString().split(",");
+//		for (String string : lstAtr) {
+//			System.out.println(string);
+//		}
+		
+		System.out.println(flatJson.size());
 	}
 
 }
