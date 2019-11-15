@@ -16,6 +16,7 @@
  */
 package com.marcelomartins.atena.controllers.converters;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,16 +28,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.logging.Logger;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 public class CSVWriter {
     /**
      * The class logger
      */
-    private static final Logger LOGGER = Logger.getLogger(CSVWriter.class);
+    //private static final Loggerr LOGGER = Logger.getLogger(CSVWriter.class);
 
     /**
      * Convert the given List of String keys-values as a CSV String.
@@ -79,7 +79,7 @@ public class CSVWriter {
         try {
             FileUtils.write(new File(fileName), csvString);
         } catch (IOException e) {
-            LOGGER.error("CSVWriter#writeToFile(csvString, fileName) IOException: ", e);
+            //LOGGER.error("CSVWriter#writeToFile(csvString, fileName) IOException: ", e);
         }
     }
     
@@ -106,7 +106,7 @@ public class CSVWriter {
             	Files.write(Paths.get(fileName), csvString.getBytes("ISO8859_1"), StandardOpenOption.APPEND);
             }            
         } catch (IOException e) {
-            LOGGER.error("CSVWriter#writeLargeFile(flatJson, separator, fileName, headers) IOException: ", e);
+            //LOGGER.error("CSVWriter#writeLargeFile(flatJson, separator, fileName, headers) IOException: ", e);
         }
     }    
 

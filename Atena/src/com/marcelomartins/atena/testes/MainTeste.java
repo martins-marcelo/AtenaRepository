@@ -25,7 +25,7 @@ import java.util.Set;
 import com.marcelomartins.atena.controllers.converters.CSVWriter;
 import com.marcelomartins.atena.controllers.converters.JSONFlattener;
 
-public class Main {
+public class MainTeste {
 
     public static void main(String[] args) throws Exception {
         /*
