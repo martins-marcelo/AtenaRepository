@@ -14,7 +14,7 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.marcelomartins.atena.controllers.converters
+package com.marcelomartins.atena.controllers.converters;
 
 import java.io.File;
 import java.io.IOException;
