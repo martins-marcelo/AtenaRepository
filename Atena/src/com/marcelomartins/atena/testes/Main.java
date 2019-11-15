@@ -14,7 +14,7 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package org.jsontocsv;
+package com.marcelomartins.atena.testes;
 
 import java.io.File;
 import java.net.URI;
