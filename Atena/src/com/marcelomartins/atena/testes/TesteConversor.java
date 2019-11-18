@@ -25,10 +25,12 @@ public class TesteConversor {
 		);
 		
 //		CSVWriter.writeToFile(CSVWriter.getCSV(flatJson, "\t"), "files/rails_closed.csv");
-		String[] lstAtr = flatJson.toString().split(",");
-		for (String string : lstAtr) {
-			System.out.println(string);
-		}
+//		String[] lstAtr = flatJson.toString().split(",");
+//		for (String string : lstAtr) {
+//			System.out.println(string);
+//		}
+		
+		System.out.println(flatJson.toString());
 	}
 
 }

@@ -36,7 +36,7 @@ public class CSVWriter {
     /**
      * The class logger
      */
-    //private static final Loggerr LOGGER = Logger.getLogger(CSVWriter.class);
+   // private static final Logger LOGGER = Logger.getLogger(CSVWriter.class);
 
     /**
      * Convert the given List of String keys-values as a CSV String.
