@@ -8,25 +8,36 @@ import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonArray;
+import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonStructure;
 
+import com.marcelomartins.atena.domain.Repositorio;
+
 public class BuscaController {
-	//ArrayList para capturar numeros dos pull requests
-	private List<Integer> lstPulls = new ArrayList<Integer>();
-	private JsonArray jarr;
 	
+	
+	//ArrayList para capturar os dados dos pull requests de acordo com o array lstPulls
+	private List<JsonObject> lstJsPulls = new ArrayList<JsonObject>();
+	private JsonArray jarr;
+
 	/*
 	 * Realiza a busca de todos os pull requests de um repositorio
 	 * Armazena o numero para busca de seus endpoints
 	 * Deve ser ligado ao botão da view
 	 */
-	public void buscarTodosPullsRepositorio(String rep) throws IOException{
-		/* Carater experimental: Fase de testes*/
+	public List<JsonObject> buscarPulls(String rep) throws IOException{
+		int iter = 1;
+		//ArrayList para capturar numeros dos pull requests
+		List<Integer> lstPulls = new ArrayList<Integer>();
+		//ArrayList of Repositorio objects that capture from Json,
+		//only the attributes that has been specificated
+		List<Repositorio> lstReps = new ArrayList<Repositorio>();
+		
+		/* Fase 1: Recuperar os endpoints para as paginas dos pulls*/
 		do {
-			int iter = 1;
 			URL url = new URL(
-				"https://api.github.com/repos/"+rep+"/pulls?state=closed&page="+iter);
+					"https://api.github.com/repos/"+rep+"/pulls?state=closed&page="+iter);
 			System.out.println("URL begin at: "+url);
 			InputStream ins = url.openStream();
 			JsonReader rdr = Json.createReader(ins);
@@ -36,24 +47,24 @@ public class BuscaController {
 				lstPulls.add(jarr.getJsonObject(j).getInt("number"));
 			}
 			System.out.println("Stage "+iter+" succesful!");
+			iter++;
 		}while(jarr.size() > 0);
+		/* Fim da fase 1*/
+		
+		/* Fase 2: Gravar em objetos Java os atributos desejados do JsonObject*/
+		for(int j = 0; j < lstPulls.size(); j++) {
+			Repositorio r = new Repositorio();
+			URL url = new URL(
+					"https://api.github.com/repos/"+rep+"/pulls/"+lstPulls.get(j));
+			System.out.println("URL begin at: "+url);
+			InputStream ins = url.openStream();
+			JsonReader rdr = Json.createReader(ins);
+			JsonObject obj = rdr.readObject();
+			//Adicionar metodos set aqui, faltou tempo
+			lstReps.add(r);
+		}
+		return lstJsPulls;		
 	}
 	
-	
-	/*
-	 * Retorna a quantidade de pull requests com state=closed associados a um projeto
-	 * Retorna 0 caso a busca de repositórios ainda nao tiver sido feita
-	 */
-	public Integer qtdRepositorios() {
-		return jarr.size();
-	}
-	
-	/*
-	 * Retorna uma lista de inteiros com os endpoints de todos os pull requests associados
-	 * a um projeto 
-	 */
-	public List<Integer> getPullsNumbers() {
-		return lstPulls;
-	}
 
 }
