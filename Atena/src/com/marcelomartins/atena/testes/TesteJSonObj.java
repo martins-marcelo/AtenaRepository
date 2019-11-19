@@ -2,53 +2,40 @@ package com.marcelomartins.atena.testes;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.json.*;
 
 
-import weka.core.converters.JSONLoader;
 
 public class TesteJSonObj{
 
 	public static void main(String[] args) throws IOException {
-		URL url = new URL("https://api.github.com/repos/spring-by-example/spring-by-example/pulls?state=closed");
+		URL url = new URL("https://api.github.com/repos/rails/rails/pulls?state=closed");
+
+
 		System.out.println("begin");
-//		InputStream is = url.openStream();
-//		JsonReader reader = Json.createReader(is);	
-//		
-//		JsonObject obj = reader.readObject();
-//		JsonArray results = obj.getJsonArray("data");
-//		
-//		for (JsonObject result : results.getValuesAs(JsonObject.class)) {
-//			System.out.println(result.getJsonObject("from").getString("name"));
-//			System.out.println(": ");
-//			
-//		}
-		try{
-			InputStream ins = url.openStream();
-			JsonReader rdr = Json.createReader(ins);
-			JsonObject jo = rdr.readObject();
-			
-			
-//			JsonArray results = obj.getJsonArray();
-//			System.out.println(results.getString(1));
-//			
-			
-//			for (JsonObject result : results.getValuesAs(JsonObject.class)) {
-//				System.out.println(result.getJsonObject("from").getString("name"));
-//				System.out.println(": ");
-//				System.out.println();
-//			}
-		}catch (Exception e) {
-			System.out.println(e.getMessage());
+		System.out.println("URL: "+url);
+
+		//ArrayList para capturar numeros dos pull requests
+		List<JsonObject> lstPulls = new ArrayList<JsonObject>();
+
+
+		InputStream ins = url.openStream();
+		JsonReader rdr = Json.createReader(ins);
+		JsonStructure stru = rdr.read();
+		JsonArray jarr = stru.asJsonArray();
+		for(int i = 0; i < jarr.size(); i++) {
+			lstPulls.add(jarr.getJsonObject(i));
+		}
+		
+		for(int i = 0; i < jarr.size(); i++) {
+			System.out.println("Numero: "+i);
+			System.out.println(lstPulls.get(i).getInt("number"));
 		}
 
-
 	}
-
-
 
 }

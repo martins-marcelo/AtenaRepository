@@ -28,12 +28,7 @@
 	</properties>
 
 	<dependencies>
-		<!-- JSON.org -->
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>${org.json.version}</version>
-		</dependency>
+		
 
 		<!-- APACHE COMMONS LANG -->
 		<dependency>
@@ -49,19 +44,14 @@
 			<version>${commons.io.version}</version>
 		</dependency>
 
-		<!-- LOG4J -->
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/javax.json/javax.json-api -->
 		<dependency>
 			<groupId>javax.json</groupId>
 			<artifactId>javax.json-api</artifactId>
 			<version>1.1.4</version>
 		</dependency>
-
+		<!-- Glassfish é uma dependencia diretamente associada ao javax.json -->
 		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.json</artifactId>
