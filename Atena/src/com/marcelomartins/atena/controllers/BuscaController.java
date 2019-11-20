@@ -16,17 +16,15 @@ import com.marcelomartins.atena.domain.Repositorio;
 
 public class BuscaController {
 	
-	
-	//ArrayList para capturar os dados dos pull requests de acordo com o array lstPulls
-	private List<JsonObject> lstJsPulls = new ArrayList<JsonObject>();
 	private JsonArray jarr;
 
 	/*
-	 * Realiza a busca de todos os pull requests de um repositorio
-	 * Armazena o numero para busca de seus endpoints
-	 * Deve ser ligado ao botão da view
+	 * Make a search of all pull requests from a repository
+	 * Save the attribute number from Json to use it like an endpoint 
+	 * to the next search
+	 * Must be linked in the view button 'search'
 	 */
-	public List<JsonObject> buscarPulls(String rep) throws IOException{
+	public List<Repositorio> buscarPulls(String rep) throws IOException{
 		int iter = 1;
 		//ArrayList para capturar numeros dos pull requests
 		List<Integer> lstPulls = new ArrayList<Integer>();
@@ -34,7 +32,7 @@ public class BuscaController {
 		//only the attributes that has been specificated
 		List<Repositorio> lstReps = new ArrayList<Repositorio>();
 		
-		/* Fase 1: Recuperar os endpoints para as paginas dos pulls*/
+		/* Fase 1: Retrieve the endpoints to pulls pages*/
 		do {
 			URL url = new URL(
 					"https://api.github.com/repos/"+rep+"/pulls?state=closed&page="+iter);
@@ -51,7 +49,7 @@ public class BuscaController {
 		}while(jarr.size() > 0);
 		/* Fim da fase 1*/
 		
-		/* Fase 2: Gravar em objetos Java os atributos desejados do JsonObject*/
+		/* Fase 2:Save in Java Objects the desired attributes from JsonObject*/
 		for(int j = 0; j < lstPulls.size(); j++) {
 			Repositorio r = new Repositorio();
 			URL url = new URL(
@@ -60,10 +58,38 @@ public class BuscaController {
 			InputStream ins = url.openStream();
 			JsonReader rdr = Json.createReader(ins);
 			JsonObject obj = rdr.readObject();
-			//Adicionar metodos set aqui, faltou tempo
+			
+			r.setCommits(obj.getInt("commits"));
+			r.setChanged_files(obj.getInt("changed_files"));
+			int changed_lines = obj.getInt("additions") + obj.getInt("deletions");
+			r.setChanged_lines(changed_lines);
+			
+			/*
+			if( tempo até 23:59:59) {
+				r.setLifetime("short");
+			}
+			else if(tempo de 24:00:00 até 47:59:59) {
+				r.setLifetime("medium");
+			}
+			else if(tempo > 48:00:00){
+				r.setLifetime("long");
+			}
+			*/
+			r.setMerged(obj.getBoolean("merged"));
+			
+			/* Ainda vou tratar a excecao do merged by, pois 
+			 * pulls fechados nao tem esse atributo se nao me engano
+			 
+			if(r.isMerged()) 
+				r.setMerged_by(obj.getString("merged_by"));
+			else
+				//Tratar
+				r.setMerged_by(null);
+			*/			
+			r.setComments(obj.getInt("comments"));
 			lstReps.add(r);
 		}
-		return lstJsPulls;		
+		return lstReps;		
 	}
 	
 

@@ -92,6 +92,13 @@ public class Repositorio {
 	public void setComments(Integer comments) {
 		this.comments = comments;
 	}
+
+	@Override
+	public String toString() {
+		return "Repositorio [commits=" + commits + ", changed_files=" + changed_files + ", changed_lines="
+				+ changed_lines + ", lifetime=" + lifetime + ", merged_by=" + merged_by + ", merged=" + merged
+				+ ", comments=" + comments + "]";
+	}
 	
 	
 	

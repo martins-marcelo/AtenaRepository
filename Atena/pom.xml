@@ -28,7 +28,7 @@
 	</properties>
 
 	<dependencies>
-		
+
 
 		<!-- APACHE COMMONS LANG -->
 		<dependency>
@@ -44,7 +44,7 @@
 			<version>${commons.io.version}</version>
 		</dependency>
 
-		
+
 		<!-- https://mvnrepository.com/artifact/javax.json/javax.json-api -->
 		<dependency>
 			<groupId>javax.json</groupId>
