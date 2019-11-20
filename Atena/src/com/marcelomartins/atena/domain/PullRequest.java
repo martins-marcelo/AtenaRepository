@@ -1,6 +1,11 @@
 package com.marcelomartins.atena.domain;
 
-public class Repositorio {
+public class PullRequest {
+	
+	/*
+	 * Local identification number of pull request
+	 */
+	private Integer number;
 	/*
 	 * Number of commits associated to one pull request
 	 */
@@ -16,11 +21,17 @@ public class Repositorio {
 	 */
 	private Integer changed_lines;	
 	/*
-	 * 0-24 hours = short
-	 * 24-48 hours = medium
-	 * 48-... hours = long
+	 * The type of lifetime
+	 * >0-24 hours = very short
+	 * >24-72 hours = short
+	 * >72-240 hours = medium
+	 * >240 hours = long
 	 */
-	private String lifetime;
+	private String lifetimeType;
+	/*
+	 * The life time in hours
+	 */
+	private int lifetime;
 	/*
 	 * This atrribute receives null as content if
 	 * the state of pull request is not merged(closed)
@@ -37,6 +48,10 @@ public class Repositorio {
 	private Integer comments;
 	
 
+	public Integer getNumber() {
+		return number;
+	}
+
 	public Integer getCommits() {
 		return commits;
 	}
@@ -49,7 +64,11 @@ public class Repositorio {
 		return changed_lines;
 	}
 
-	public String getLifetime() {
+	public String getLifetimeType() {
+		return lifetimeType;
+	}
+	
+	public int getLifetime() {
 		return lifetime;
 	}
 
@@ -64,6 +83,10 @@ public class Repositorio {
 	public Integer getComments() {
 		return comments;
 	}
+	
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
 
 	public void setCommits(Integer commits) {
 		this.commits = commits;
@@ -77,7 +100,11 @@ public class Repositorio {
 		this.changed_lines = changed_lines;
 	}
 
-	public void setLifetime(String lifetime) {
+	public void setLifetimeType(String lifetime) {
+		this.lifetimeType = lifetime;
+	}
+	
+	public void setLifetime(int lifetime) {
 		this.lifetime = lifetime;
 	}
 
@@ -95,8 +122,8 @@ public class Repositorio {
 
 	@Override
 	public String toString() {
-		return "Repositorio [commits=" + commits + ", changed_files=" + changed_files + ", changed_lines="
-				+ changed_lines + ", lifetime=" + lifetime + ", merged_by=" + merged_by + ", merged=" + merged
+		return "Pull "+number+" [commits=" + commits + ", changed_files=" + changed_files + ", changed_lines="
+				+ changed_lines + ", lifetime=" + lifetime + ", lifetimeType="+lifetimeType+", merged_by=" + merged_by + ", merged=" + merged
 				+ ", comments=" + comments + "]";
 	}
 	

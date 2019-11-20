@@ -8,7 +8,8 @@
 	const sort = "created: asc"
 
 	async function getUser(user){
-		const profileResponse = await fetch(`${url}/${user}?client_id=${client_id}&client_secret=${client_secret}`);
+		const profileResponse = await fetch(
+				`${url}/${user}?client_id=${client_id}&client_secret=${client_secret}`);
 
 		const reposResponse = await fetch(`${url}/${user}/repos?per_page=${count}&sort=${sort}&client_id=${client_id}&client_secret=${client_secret}`);
 
