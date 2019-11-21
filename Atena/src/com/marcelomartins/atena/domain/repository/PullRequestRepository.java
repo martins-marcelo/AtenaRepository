@@ -3,7 +3,6 @@ package com.marcelomartins.atena.domain.repository;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +14,6 @@ import javax.json.JsonStructure;
 
 import org.joda.time.DateTime;
 import org.joda.time.Hours;
-import org.joda.time.JodaTimePermission;
 
 import com.marcelomartins.atena.domain.PullRequest;
 
@@ -24,8 +22,6 @@ public class PullRequestRepository {
 	private final static String CLI_ID = "d95b5880e8a566cf210d";
 	private final static String CLI_SECRET = "cb66a2efc7c7e50e2921bc93c17dfdffdb5aa97b";
 
-	private JsonArray jarr;
-
 	/*
 	 * Make a search of all pull requests from a repository
 	 * Save the attribute number from Json to use it like an endpoint 
@@ -33,101 +29,94 @@ public class PullRequestRepository {
 	 * Must be linked in the view button 'search'
 	 */
 	public List<PullRequest> getPullsList(String rep) throws IOException{
-
-		int iter = 1;
-		//ArrayList para capturar numeros dos pull requests
-		List<Integer> lstPulls = new ArrayList<Integer>();
-		//ArrayList of Repositorio objects that capture from Json,
-		//only the attributes that has been specificated
-		List<PullRequest> lstReps = new ArrayList<PullRequest>();
-
-		/* Fase 1: Retrieve the endpoints to pulls pages*/
-		do {
-
-
-			URL url = new URL(
-					"https://api.github.com/repos/"+rep+"/pulls?state=closed&page="+iter+
-					"&client_id="+CLI_ID+"&client_secret="+CLI_SECRET);
-			InputStream ins = url.openStream(); 
-
-			JsonReader rdr = Json.createReader(ins);
-			JsonStructure stru = rdr.read();
-
-			if(stru.asJsonArray().size()>0) {
-				jarr = stru.asJsonArray();
-			}	
-			else
-				break;
-			System.out.println("URL begin at: "+url);
-			for(int j = 0; j < jarr.size(); j++) {
-				lstPulls.add(jarr.getJsonObject(j).getInt("number"));
-			}
-			System.out.println("Stage "+iter+" succesful! "+lstPulls.size());
-			iter++;
-		}while(jarr.size() > 0);
-		/* Fim da fase 1*/
-
-		/* Fase 2:Save in Java Objects the desired attributes from JsonObject*/
-		for(int j = 0; j < lstPulls.size(); j++) {
-			PullRequest r = new PullRequest();
-			URL url = new URL(
-					"https://api.github.com/repos/"+rep+"/pulls/"+lstPulls.get(j)+
-					"?client_id="+CLI_ID+"&client_secret="+CLI_SECRET);
-			System.out.println("URL begin at: "+url);
-			InputStream ins = url.openStream();
-			JsonReader rdr = Json.createReader(ins);
-			JsonObject obj = rdr.readObject();
-
-			r.setNumber(obj.getInt("number"));
-			r.setCommits(obj.getInt("commits"));
-			r.setChanged_files(obj.getInt("changed_files"));
-			int changed_lines = obj.getInt("additions") + obj.getInt("deletions");
-			r.setChanged_lines(changed_lines);
-			r.setLifetime(lifeTimeFactory(obj.getString("created_at"), obj.getString("closed_at")));
-			r.setLifetimeType(lifeTimeTypeFactory(r.getLifetime()));
-			/*
-			if( tempo até 23:59:59) {
-				r.setLifetime("short");
-			}
-			else if(tempo de 24:00:00 até 47:59:59) {
-				r.setLifetime("medium");
-			}
-			else if(tempo > 48:00:00){
-				r.setLifetime("long");
-			}
-			 */
-			r.setMerged(obj.getBoolean("merged"));
-
-			/* Ainda vou tratar a excecao do merged by, pois 
-			 * pulls fechados nao tem esse atributo se nao me engano
-
-			if(r.isMerged()) 
-				r.setMerged_by(obj.getString("merged_by"));
-			else
-				//Tratar
-				r.setMerged_by(null);
-			 */			
-			r.setComments(obj.getInt("comments"));
-			lstReps.add(r);
-		}
-
-		return lstReps;	
-
+		
+		List<Integer> lstNumbers = getPullsNumbers(rep);
+		List<PullRequest> lstPulls = new ArrayList<PullRequest>();
+		
+		for(int i=0; i<lstNumbers.size(); i++)
+			lstPulls.add(getPullRequest(rep, lstNumbers.get(i)));
+		
+		
+		return lstPulls;
 	}
 
+	private List<Integer> getPullsNumbers(String rep) throws IOException{
+		
+		URL url;
+		InputStream ins;
+		JsonReader rdr;
+		JsonStructure str;
+		JsonArray jarr;
+		
+		int i = 1;
+
+		List<Integer> lstNumbers = new ArrayList<Integer>();
+
+		do {
+			url = new URL("https://api.github.com/repos/"+rep+"/pulls?state=closed&page="+i+
+					"&client_id="+CLI_ID+"&client_secret="+CLI_SECRET);
+			ins = url.openStream();
+
+			rdr = Json.createReader(ins);
+			str = rdr.read();
+
+			if(str.asJsonArray().size()>0)
+				jarr = str.asJsonArray();
+			else
+				break;
+
+			System.out.println("Search numbers on page "+i);
+			for(int j=0; j<jarr.size(); j++) {
+				lstNumbers.add(jarr.getJsonObject(j).getInt("number"));
+				System.out.println("Number "+jarr.getJsonObject(j).getInt("number")+" add");
+			}
+			i++;
+
+		}while(jarr.size() > 0);
+		System.out.println(lstNumbers.size()+" numbers add");
+		
+		if(lstNumbers.size()==0)
+			throw new IOException();
+		
+		return lstNumbers;
+	}
+
+	private PullRequest getPullRequest(String rep, int number) throws IOException{
+		
+		PullRequest pull = new PullRequest();
+		URL url = new URL("https://api.github.com/repos/"+rep+"/pulls/"+number+
+					"?client_id="+CLI_ID+"&client_secret="+CLI_SECRET);
+		
+		InputStream ins = url.openStream();
+		JsonReader rdr = Json.createReader(ins);
+		JsonObject obj = rdr.readObject();
+		
+		pull.setNumber(obj.getInt("number"));
+		pull.setCommits(obj.getInt("commits"));
+		pull.setChanged_files(obj.getInt("changed_files"));
+		int changed_lines = obj.getInt("additions") + obj.getInt("deletions");
+		pull.setChanged_lines(changed_lines);
+		pull.setLifetime(lifeTimeFactory(obj.getString("created_at"), obj.getString("closed_at")));
+		pull.setLifetimeType(lifeTimeTypeFactory(pull.getLifetime()));
+		pull.setMerged(obj.getBoolean("merged"));
+		pull.setComments(obj.getInt("comments"));
+		
+		return pull;
+	}
+	
 	/*
 	 * Return a String with type of lifetime and set hours to Pull attribute 
 	 */
 	private String lifeTimeTypeFactory(int hours) {
 
 		if(hours >= 0 && hours <= 24)
-			return "vs";
+			return "VS";
 		else if (hours > 24 && hours <= 72)
-			return "s";
+			return "S";
 		else if (hours > 72 && hours <= 240)
-			return "m";
+			return "M";
 		else if (hours > 240)
-			return "l";
+			return "L";
 
 		return null;
 	}

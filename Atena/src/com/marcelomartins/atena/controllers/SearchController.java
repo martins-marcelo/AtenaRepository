@@ -27,7 +27,7 @@ public class SearchController {
 		try {
 			lstPulls = pullRepo.getPullsList(link);
 		} catch (IOException e) {
-			panelSearch.errorMessage(true);
+			panelSearch.showErrorMessage(true);
 			return;
 		}
 		

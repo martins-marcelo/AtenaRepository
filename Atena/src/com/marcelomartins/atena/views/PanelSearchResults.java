@@ -3,36 +3,36 @@ package com.marcelomartins.atena.views;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-import com.marcelomartins.atena.controllers.SearchController;
 import com.marcelomartins.atena.domain.PullRequest;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
+import java.util.Enumeration;
 import java.util.List;
 import java.awt.event.MouseAdapter;
-import javax.swing.JScrollPane;
-import java.awt.Canvas;
 import javax.swing.JTable;
-import javax.swing.border.EtchedBorder;
-import javax.swing.UIManager;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.EtchedBorder;
+import javax.swing.event.TableColumnModelListener;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 public class PanelSearchResults extends JFrame{
 	
 	private List<PullRequest> lstPulls;
-	
-	private DefaultTableModel model;
 	
 	private JPanel pCenter, pNorth;
 
 	private JLabel lbTit, lbLink, lbExit;
 
 	private JTable table;
+	
+	private JScrollPane scrollPane;
 	
 	private String link;
 
@@ -107,44 +107,20 @@ public class PanelSearchResults extends JFrame{
 
 	//Construir a tabela inicializando com os objetos retornados da consulta
 	private void buildTable() {
-		
-		model = new DefaultTableModel();
-		model.addColumn("Number");
-		model.addColumn("Commits");
-		model.addColumn("Changed Files");
-		model.addColumn("Changed Lines");
-		model.addColumn("Lifetime Type");
-		model.addColumn("Lifetime");
-		model.addColumn("Merged by");
-		model.addColumn("Merged");
-		model.addColumn("Comments");		
-		loadData();
-		
-		table = new JTable(model);
+				
+		table = new JTable();
+		table.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		table.setModel(new PullTableModel(lstPulls));
+		table.setBackground(Color.LIGHT_GRAY);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setBounds(191, 65, 506, 300);
+		table.setBounds(101, 55, 506, 300);
+		scrollPane = new JScrollPane();
+		scrollPane.add(table);
 		
-	}
-	
-	private void loadData() {
-		model.setNumRows(0);
-		
-		for(PullRequest pull : lstPulls) {
-			model.addRow(new Object[] 
-					{pull.getNumber(),					
-					pull.getCommits(),
-					pull.getChanged_files(),
-					pull.getChanged_lines(),
-					pull.getLifetimeType(),
-					pull.getMerged_by(),
-					null, //NÃO SEI SE TEM GET MERGED SEI LÁ, NÃO ENCONTREI
-					pull.getComments()
-					});
-		}
 	}
 
 	private void addTable() {
 		buildTable();
-		pCenter.add(table);
+		pCenter.add(scrollPane);
 	}
 }

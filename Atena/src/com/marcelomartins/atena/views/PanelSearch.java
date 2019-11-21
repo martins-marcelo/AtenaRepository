@@ -113,7 +113,7 @@ public class PanelSearch extends JFrame{
 					tfSearch.setForeground(Color.BLACK);
 					
 					if(pError.isVisible())
-						errorMessage(false);
+						showErrorMessage(false);
 				}
 			}
 		});
@@ -138,7 +138,7 @@ public class PanelSearch extends JFrame{
 		pCenter.add(btSearch);
 	}
 
-	public void errorMessage(boolean value) {
+	public void showErrorMessage(boolean value) {
 		pError.setVisible(value);
 	}
 
