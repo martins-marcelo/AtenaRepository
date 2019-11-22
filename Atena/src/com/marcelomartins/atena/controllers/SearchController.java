@@ -38,6 +38,5 @@ public class SearchController {
 		
 		panelSearch.dispose();
 		panelResults = new PanelSearchResults(link, lstPulls);
-		panelResults.setVisible(true);
 	}
 }

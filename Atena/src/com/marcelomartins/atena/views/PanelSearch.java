@@ -29,14 +29,16 @@ public class PanelSearch extends JFrame{
 	private JTextField tfSearch;
 
 	public PanelSearch() {	
+		addPanel();
+		searchController = new SearchController(this);
+		
 		setTitle("Atena Search");
 		setSize(750, 500);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setResizable(false);
+		setVisible(true);
 
-		addPanel();
-		searchController = new SearchController(this);
 	}	
 
 	private void buildPanel() {
@@ -145,6 +147,5 @@ public class PanelSearch extends JFrame{
 
 	public static void main(String[] args) {
 		PanelSearch ps = new PanelSearch();
-		ps.setVisible(true);
 	}
 }
