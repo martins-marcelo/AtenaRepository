@@ -12,7 +12,7 @@ public class PullRequest {
 	private Integer commits;
 	/*
 	 * Number of files changed
-	 * This atrribute is a sum of additions and deletions
+	 * This attribute is a sum of additions and deletions
 	 */
 	private Integer changed_files;
 	/*

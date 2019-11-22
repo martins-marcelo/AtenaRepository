@@ -30,9 +30,11 @@ public class PullRequestRepository {
 	 */
 	public List<PullRequest> getPullsList(String rep) throws IOException{
 		
+		//Before, the whole method getPullsNunbers was called step 1
 		List<Integer> lstNumbers = getPullsNumbers(rep);
 		List<PullRequest> lstPulls = new ArrayList<PullRequest>();
 		
+		//This was called step 2
 		for(int i=0; i<lstNumbers.size(); i++)
 			lstPulls.add(getPullRequest(rep, lstNumbers.get(i)));
 		
@@ -40,6 +42,7 @@ public class PullRequestRepository {
 		return lstPulls;
 	}
 
+	//Step 1
 	private List<Integer> getPullsNumbers(String rep) throws IOException{
 		
 		URL url;
@@ -80,16 +83,19 @@ public class PullRequestRepository {
 		
 		return lstNumbers;
 	}
-
+	
+	//Step 2
 	private PullRequest getPullRequest(String rep, int number) throws IOException{
 		
 		PullRequest pull = new PullRequest();
 		URL url = new URL("https://api.github.com/repos/"+rep+"/pulls/"+number+
 					"?client_id="+CLI_ID+"&client_secret="+CLI_SECRET);
-		
+		System.out.println("URL begin at: "+url);
 		InputStream ins = url.openStream();
 		JsonReader rdr = Json.createReader(ins);
 		JsonObject obj = rdr.readObject();
+		//Object that is able to access one level below the object
+		JsonObject joMerged_by;
 		
 		pull.setNumber(obj.getInt("number"));
 		pull.setCommits(obj.getInt("commits"));
@@ -100,7 +106,13 @@ public class PullRequestRepository {
 		pull.setLifetimeType(lifeTimeTypeFactory(pull.getLifetime()));
 		pull.setMerged(obj.getBoolean("merged"));
 		pull.setComments(obj.getInt("comments"));
-		
+		if(pull.isMerged()) {
+			joMerged_by = obj.getJsonObject("merged_by");
+			pull.setMerged_by(joMerged_by.getString("login"));
+		}
+		else {
+			pull.setMerged_by(null);
+		}
 		return pull;
 	}
 	

@@ -16,6 +16,11 @@ public class SearchController {
 	
 	private PullRequestRepository pullRepo;
 	
+	/*
+	 * Nao quero cutucar tuas views pq tao com tua logica
+	 * Poderia por favor so colocar um botao para minerar
+	 */
+	
 	public SearchController(PanelSearch ps) {
 		this.panelSearch = ps;
 	}

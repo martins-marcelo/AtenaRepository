@@ -1,12 +1,9 @@
 package com.marcelomartins.atena.testes;
 
 import java.util.Scanner;
-
 import javax.swing.JFrame;
-
+import com.marcelomartins.atena.views.Main;
 import com.marcelomartins.atena.views.PanelSearch;
-import com.marcelomartins.atena.views.PanelSearchResults;
-import com.sun.tools.javac.Main;
 
 public class TesteViews {
 
