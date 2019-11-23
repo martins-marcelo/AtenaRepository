@@ -1,4 +1,4 @@
-package com.marcelomartins.atena.controllers.mineradores;
+	package com.marcelomartins.atena.controllers.mineradores;
 
 import java.nio.file.Path;
 
@@ -22,17 +22,17 @@ public class Associador {
 		options[2] = "-R";
 		options[3] = "1-9";
 		options[4] = "-V";
-		ds = new DataSource("pullrequests.csv");
+		ds = new DataSource("pullrequests2.csv");
 		ins = ds.getDataSet();
 		ins.setClassIndex(7);
 		System.out.println("numero de atributos"+ins.numAttributes());
 		System.out.println("numero de instancias"+ins.numInstances());
-		disc = new Discretize();
-		disc.setOptions(options);
-		disc.setInputFormat(ins);
-		discret = Filter.useFilter(ins, disc);
+		//disc = new Discretize();
+		//disc.setOptions(options);
+		//disc.setInputFormat(ins);
+		//ins = Filter.useFilter(ins, disc);
 		ap = new Apriori();
-		ap.buildAssociations(discret);
+		ap.buildAssociations(ins);
 		System.out.println(ap);
 		
 		

@@ -46,7 +46,7 @@ public class PanelSearch extends JFrame{
 		pCenter = new JPanel();
 		pCenter.setLayout(null);
 		pCenter.setBounds(0, 0, 750, 431);
-		pCenter.setBackground(Color.WHITE);
+		pCenter.setBackground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
 
 		pSouth = new JPanel();
 		pSouth.setLayout(null);
@@ -72,6 +72,8 @@ public class PanelSearch extends JFrame{
 
 	private void buildLabel() {
 		lbTit = new JLabel("ATENA");
+		lbTit.setForeground(Color.WHITE);
+		lbTit.setBackground(Color.BLACK);
 		lbTit.setBounds(240, 105, 270, 84);
 		lbTit.setHorizontalAlignment(SwingConstants.CENTER);
 		lbTit.setFont(new Font("DejaVu Sans", Font.BOLD, 72));
@@ -142,10 +144,5 @@ public class PanelSearch extends JFrame{
 
 	public void showErrorMessage(boolean value) {
 		pError.setVisible(value);
-	}
-
-
-	public static void main(String[] args) {
-		PanelSearch ps = new PanelSearch();
 	}
 }

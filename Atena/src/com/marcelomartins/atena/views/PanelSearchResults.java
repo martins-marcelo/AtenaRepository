@@ -10,6 +10,7 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import com.marcelomartins.atena.controllers.CsvController;
 import com.marcelomartins.atena.domain.PullRequest;
 import com.marcelomartins.atena.domain.repository.PullRequestRepository;
 
@@ -21,6 +22,7 @@ import java.util.List;
 import java.awt.event.MouseAdapter;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
 
 public class PanelSearchResults extends JFrame{
 
@@ -39,6 +41,8 @@ public class PanelSearchResults extends JFrame{
 	private JButton btCSV;
 	
 	private String link;
+	
+	private CsvController csv;
 
 	public PanelSearchResults(String link, List<PullRequest> lstPulls) {
 
@@ -64,11 +68,24 @@ public class PanelSearchResults extends JFrame{
 		pCenter.setBackground(Color.WHITE);
 		
 		pNorth = new JPanel();
+		pNorth.setBackground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
 		pNorth.setBounds(0, 0, 850, 44);
 		
 		btCSV = new JButton("Convert to CSV");
-		btCSV.setFont(new Font("DejaVu Sans", Font.BOLD, 5));
-		btCSV.setBounds(736, 176, 114, 101);
+		btCSV.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				csv = new CsvController();
+				try {
+					csv.parseAndWrite(lstPulls);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btCSV.setFont(new Font("DejaVu Sans", Font.BOLD, 7));
+		btCSV.setBounds(736, 187, 114, 90);
 		pCenter.add(btCSV);
 
 		addLabel();
@@ -85,16 +102,20 @@ public class PanelSearchResults extends JFrame{
 
 	private void buildLabel() {
 		lbTit = new JLabel("ATENA");
+		lbTit.setForeground(Color.WHITE);
+		lbTit.setBackground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
 		lbTit.setHorizontalAlignment(SwingConstants.LEFT);
 		lbTit.setFont(new Font("DejaVu Sans", Font.BOLD, 20));
 		lbTit.setBounds(12, 12, 270, 32);
 
 		lbLink = new JLabel(link);
+		lbLink.setForeground(Color.WHITE);
 		lbLink.setHorizontalAlignment(SwingConstants.CENTER);
 		lbLink.setFont(new Font("DejaVu Sans", Font.BOLD, 20));
 		lbLink.setBounds(165, 12, 520, 32);
 
 		lbExit = new JLabel("Exit");
+		lbExit.setForeground(Color.WHITE);
 		lbExit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
