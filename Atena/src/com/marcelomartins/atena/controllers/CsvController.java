@@ -21,6 +21,6 @@ public class CsvController {
         writer.flush();
         writer.close();
         System.out.println("Csv file created!");
-        as.minerarApriori(Paths.get("pullrequests2.csv"));
+        as.minerarApriori("pullRequests.csv");
 	}
 }

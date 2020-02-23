@@ -12,7 +12,6 @@ import javax.swing.table.DefaultTableModel;
 
 import com.marcelomartins.atena.controllers.CsvController;
 import com.marcelomartins.atena.domain.PullRequest;
-import com.marcelomartins.atena.domain.repository.PullRequestRepository;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -25,10 +24,11 @@ import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 
 public class PanelSearchResults extends JFrame{
+	private static final long serialVersionUID = 1L;
 
 	private List<PullRequest> lstPulls;
 
-	private JPanel pCenter, pNorth, pInfo;
+	private JPanel pCenter, pNorth;
 
 	private JLabel lbTit, lbLink, lbExit;
 
@@ -38,7 +38,7 @@ public class PanelSearchResults extends JFrame{
 
 	private JScrollPane scrollPane;
 
-	private JButton btCSV;
+	private JButton btCSV, btApriori;
 	
 	private String link;
 	
@@ -71,7 +71,7 @@ public class PanelSearchResults extends JFrame{
 		pNorth.setBackground(UIManager.getColor("CheckBoxMenuItem.acceleratorForeground"));
 		pNorth.setBounds(0, 0, 850, 44);
 		
-		btCSV = new JButton("Convert to CSV");
+		btCSV = new JButton("Generate CSV");
 		btCSV.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -87,7 +87,7 @@ public class PanelSearchResults extends JFrame{
 		btCSV.setFont(new Font("DejaVu Sans", Font.BOLD, 7));
 		btCSV.setBounds(736, 187, 114, 90);
 		pCenter.add(btCSV);
-
+		
 		addLabel();
 		addTable();
 	}

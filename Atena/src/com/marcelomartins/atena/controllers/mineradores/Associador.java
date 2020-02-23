@@ -1,6 +1,9 @@
 	package com.marcelomartins.atena.controllers.mineradores;
 
-import java.nio.file.Path;
+
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import weka.associations.Apriori;
 import weka.core.Instances;
@@ -10,30 +13,42 @@ import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.Discretize;
 
 public class Associador {
+	String[] options;
+	String destArchName = "pullRequestsDisc.csv";
 	DataSource ds;
-	Instances ins, discret;
+	Instances ins, newData;
 	Apriori ap;
 	Discretize disc;
-	String[] options;
-	public void minerarApriori(Path caminho) throws Exception {
-		options = new String[5];
-		options[0] = "-B";
-		options[1] = "5";
-		options[2] = "-R";
-		options[3] = "1-9";
-		options[4] = "-V";
-		ds = new DataSource("pullrequests2.csv");
+	CSVSaver saver;
+	public void minerarApriori(String arquivoNome) throws Exception {
+		/*
+		 * This String array represents metrics to Discretize
+		 * See docs for more explanation
+		 */
+		ds = new DataSource(arquivoNome);
 		ins = ds.getDataSet();
 		ins.setClassIndex(7);
-		System.out.println("numero de atributos"+ins.numAttributes());
-		System.out.println("numero de instancias"+ins.numInstances());
-		//disc = new Discretize();
-		//disc.setOptions(options);
-		//disc.setInputFormat(ins);
-		//ins = Filter.useFilter(ins, disc);
+		System.out.println("numero de atributos "+ins.numAttributes());
+		System.out.println("numero de instancias "+ins.numInstances());
+		
+		//Discretizing
+		disc = new Discretize();
+		disc.setInputFormat(ins);
+		
+		newData = Filter.useFilter(ins, disc);
+		System.out.println("Discretizou!");
+		System.out.println(newData.toString());
+//		CSVSaver saver = new CSVSaver();
+//		saver.setInstances(newData);
+//		saver.setFile(new File(destArchName));
+//		saver.writeBatch();
+		
+		//Making association
 		ap = new Apriori();
-		ap.buildAssociations(ins);
+		ap.buildAssociations(newData);
 		System.out.println(ap);
+		
+		Files.write(Paths.get("aprioriResult.txt"), ap.toString().getBytes());
 		
 		
 	}
