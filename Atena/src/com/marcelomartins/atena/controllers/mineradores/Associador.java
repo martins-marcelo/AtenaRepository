@@ -5,6 +5,8 @@
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import com.marcelomartins.atena.views.AprioriResults;
+
 import weka.associations.Apriori;
 import weka.core.Instances;
 import weka.core.converters.CSVSaver;
@@ -48,6 +50,8 @@ public class Associador {
 		ap.buildAssociations(newData);
 		System.out.println(ap);
 		
+		AprioriResults apr = new AprioriResults(ap);
+		apr.setVisible(true);
 		Files.write(Paths.get("aprioriResult.txt"), ap.toString().getBytes());
 		
 		

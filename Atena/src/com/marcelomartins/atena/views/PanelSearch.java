@@ -17,6 +17,7 @@ import java.awt.event.MouseAdapter;
 import javax.swing.UIManager;
 
 public class PanelSearch extends JFrame{
+	private static final long serialVersionUID = 1L;
 
 	private SearchController searchController;
 
@@ -31,7 +32,7 @@ public class PanelSearch extends JFrame{
 	public PanelSearch() {	
 		addPanel();
 		searchController = new SearchController(this);
-		
+
 		setTitle("Atena Search");
 		setSize(750, 500);
 		setLocationRelativeTo(null);
@@ -115,12 +116,15 @@ public class PanelSearch extends JFrame{
 					tfSearch.setFocusable(true);
 					tfSearch.setText("");
 					tfSearch.setForeground(Color.BLACK);
-					
+
 					if(pError.isVisible())
 						showErrorMessage(false);
 				}
 			}
 		});
+
+
+
 
 		btSearch = new JButton("Search");
 		btSearch.addMouseListener(new MouseAdapter() {
@@ -145,4 +149,8 @@ public class PanelSearch extends JFrame{
 	public void showErrorMessage(boolean value) {
 		pError.setVisible(value);
 	}
+
+	
+
+
 }

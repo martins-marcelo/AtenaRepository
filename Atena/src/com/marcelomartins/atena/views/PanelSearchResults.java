@@ -38,7 +38,7 @@ public class PanelSearchResults extends JFrame{
 
 	private JScrollPane scrollPane;
 
-	private JButton btCSV, btApriori;
+	private JButton btCSV;
 	
 	private String link;
 	
@@ -78,6 +78,7 @@ public class PanelSearchResults extends JFrame{
 				csv = new CsvController();
 				try {
 					csv.parseAndWrite(lstPulls);
+					dispose();
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

@@ -1,0 +1,28 @@
+
+Apriori
+=======
+
+Minimum support: 0.7 (52 instances)
+Minimum metric <confidence>: 0.9
+Number of cycles performed: 6
+
+Generated sets of large itemsets:
+
+Size of set of large itemsets L(1): 5
+
+Size of set of large itemsets L(2): 6
+
+Size of set of large itemsets L(3): 2
+
+Best rules found:
+
+ 1. changed_files='(-inf-2.1]' 56 ==> commits='(-inf-5.7]' 56    <conf:(1)> lift:(1.09) lev:(0.06) [4] conv:(4.48)
+ 2. changed_files='(-inf-2.1]' changed_lines='(-inf-92.1]' 55 ==> commits='(-inf-5.7]' 55    <conf:(1)> lift:(1.09) lev:(0.06) [4] conv:(4.4)
+ 3. commits='(-inf-5.7]' 69 ==> changed_lines='(-inf-92.1]' 68    <conf:(0.99)> lift:(1.06) lev:(0.05) [3] conv:(2.3)
+ 4. commits='(-inf-5.7]' lifetime='(-inf-1326.7]' 59 ==> changed_lines='(-inf-92.1]' 58    <conf:(0.98)> lift:(1.05) lev:(0.04) [2] conv:(1.97)
+ 5. changed_files='(-inf-2.1]' 56 ==> changed_lines='(-inf-92.1]' 55    <conf:(0.98)> lift:(1.05) lev:(0.04) [2] conv:(1.87)
+ 6. changed_files='(-inf-2.1]' commits='(-inf-5.7]' 56 ==> changed_lines='(-inf-92.1]' 55    <conf:(0.98)> lift:(1.05) lev:(0.04) [2] conv:(1.87)
+ 7. changed_files='(-inf-2.1]' 56 ==> changed_lines='(-inf-92.1]' commits='(-inf-5.7]' 55    <conf:(0.98)> lift:(1.08) lev:(0.06) [4] conv:(2.61)
+ 8. changed_lines='(-inf-92.1]' 70 ==> commits='(-inf-5.7]' 68    <conf:(0.97)> lift:(1.06) lev:(0.05) [3] conv:(1.87)
+ 9. changed_lines='(-inf-92.1]' lifetime='(-inf-1326.7]' 60 ==> commits='(-inf-5.7]' 58    <conf:(0.97)> lift:(1.05) lev:(0.04) [2] conv:(1.6)
+10. lifetime='(-inf-1326.7]' 65 ==> changed_lines='(-inf-92.1]' 60    <conf:(0.92)> lift:(0.99) lev:(-0.01) [0] conv:(0.72)
