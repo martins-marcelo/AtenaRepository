@@ -28,7 +28,7 @@ public class TesteJSonObj{
 			}
 		System.out.println("It's time to data mining!!\n\n");
 		scanner.close();
-		csvControl.parseAndWrite(lstReps);
+		csvControl.writePulls(lstReps);
 	}
 
 }

@@ -3,6 +3,7 @@ package com.marcelomartins.atena.views;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -22,6 +23,8 @@ import java.awt.event.MouseAdapter;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelSearchResults extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -77,8 +80,7 @@ public class PanelSearchResults extends JFrame{
 			public void mouseClicked(MouseEvent e) {
 				csv = new CsvController();
 				try {
-					csv.parseAndWrite(lstPulls);
-					dispose();
+					csv.writePulls(lstPulls);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -86,7 +88,7 @@ public class PanelSearchResults extends JFrame{
 			}
 		});
 		btCSV.setFont(new Font("DejaVu Sans", Font.BOLD, 7));
-		btCSV.setBounds(736, 187, 114, 90);
+		btCSV.setBounds(736, 56, 114, 90);
 		pCenter.add(btCSV);
 		
 		addLabel();
@@ -97,6 +99,22 @@ public class PanelSearchResults extends JFrame{
 		buildPanel();
 		getContentPane().setLayout(null);
 		getContentPane().add(pCenter);
+		
+		JButton btDiscretize = new JButton("Mining Screen");
+		btDiscretize.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int result = JOptionPane.showConfirmDialog(
+						null, "Go to mining?\nAll unsaved progress will be lost", "Mining Screen:",JOptionPane.YES_NO_OPTION);
+				if(result == 0) {
+					dispose();
+					MiningScreen ms = new MiningScreen();
+					ms.setVisible(true);
+				}
+			}
+		});
+		btDiscretize.setFont(new Font("DejaVu Sans", Font.BOLD, 7));
+		btDiscretize.setBounds(736, 190, 114, 90);
+		pCenter.add(btDiscretize);
 		
 		getContentPane().add(pNorth);
 	}
