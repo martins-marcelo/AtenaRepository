@@ -19,8 +19,8 @@ import com.marcelomartins.atena.domain.PullRequest;
 
 public class PullRequestRepository {
 
-	private final static String CLI_ID = "d95b5880e8a566cf210d";
-	private final static String CLI_SECRET = "cb66a2efc7c7e50e2921bc93c17dfdffdb5aa97b";
+	private final static String CLI_ID = "";
+	private final static String CLI_SECRET = "";
 
 	/*
 	 * Make a search of all pull requests from a repository
